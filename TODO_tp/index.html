@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de hoteles</title>
+
+    <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="Estilos/style.css">
+</head>
+
+<body>
+    <header class="light-background">
+        <h1>
+            Listado <br>
+            de hoteles <br>
+            LGBTIQ+ Friendly
+        </h1>
+    </header>
+
+    <main class="dark-background">
+        <h2 id="AccionesHoteles">
+            Mis Hoteles<br>
+            <button type="menu" id="VerTodos" class="headerActionButton active"
+                title="Ver todos los hoteles Cargados">Todos</button>
+            <button type="menu" id="VerCompletados" class="headerActionButton"
+                title="Ver todas los hoteles Completados">Completados</button>
+            <button type="menu" id="VerArchivados" class="headerActionButton"
+                title="Ver todas los hoteles Archivados">Archivados</button>
+        </h2>
+        <section class="hoteles">
+            <div class="hoteles-container">
+                <article class="hotel chanfle todos template">
+                    <h3>
+                        <span class="titulo">Hotel 1 <br>
+                            Estrellas: </span>
+                    </h3>
+                    <hr>
+                    <p class="descripcion">
+                        Descripcion hotel
+                    </p>
+                    <h1>
+                        <span class="contacto">Mail: <br>
+                            Teléfono: </span>
+                    </h1>
+                    <div class="acciones">
+                        <button id="Archivar" title="Archivar"><i class='bx bxs-message-square-x'></i></button>
+                        <button id="Editar" title="Editar"><i class='bx bxs-message-square-edit'></i></button>
+                        <button id="Completar" title="Completar"><i class='bx bxs-message-square-check'></i></button>
+                    </div>
+                    <span class="fecha" title="Fecha de creación">19/12/24</span>
+                    <input type="hidden" name="id_hotel" class="id_hotel">
+                </article>
+                <article class="hotel chanfle completado template">
+                    <h3>
+                        <span class="titulo">Hotel 2</span>
+                        <span class="detalle">(Completado)</span>
+                    </h3>
+                    <hr>
+                    <p class="descripcion">
+                        Descripcion hotel completado
+                    </p>
+                    <h1>
+                        <span class="contacto">Mail: <br>
+                            Teléfono: </span>
+                    </h1>
+                    <div class="acciones">
+                        <button id="Archivar" title="Archivar"><i class='bx bxs-message-square-x'></i></button>
+                        <button id="Editar" title="Marcar para editar"><i
+                                class='bx bxs-message-square-edit'></i></button>
+                    </div>
+                    <span class="fecha" title="Fecha de creación">19/12/24</span>
+                    <input type="hidden" name="id_hotel" class="id_hotel">
+                </article>
+                <article class="hotel chanfle archivado template">
+                    <h3>
+                        <span class="titulo">Hotel 2</span>
+                        <span class="detalle">(Archivado)</span>
+                    </h3>
+                    <hr>
+                    <p class="descripcion">
+                        Descripcion hotel archivado
+                    </p>
+                    <h1>
+                        <span class="contacto">Mail: <br>
+                            Teléfono: </span>
+                    </h1>
+                    <div class="acciones">
+                        <button id="Editar" title="Marcar para editar"><i
+                                class='bx bxs-message-square-edit'></i></button>
+                        <button id="Completar" title="Marcar como Completado"><i
+                                class='bx bxs-message-square-check'></i></button>
+                    </div>
+                    <span class="fecha" title="Fecha de creación">19/12/24</span>
+                    <input type="hidden" name="id_hotel" class="id_hotel">
+                </article>
+            </div>
+            <article class="hotel agregar">
+                <a href="pages/add_update_hotel.html" class="accion">
+                    <i class='bx bxs-message-square-add'></i>
+                </a>
+            </article>
+        </section>
+    </main>
+
+    <footer class="animated">
+        <p class="firma">
+            Hoteles LGTIQ+ Friendly <br>
+            Codo a Codo <br>
+            1er Cuatrimestre 2024
+        </p>
+        <ul class="sociales">
+            <li><a href="#"><i class='bx bxl-instagram-alt'></i></a></li>
+            <li><a href="#"><i class='bx bxl-facebook'></i></a></li>
+            <li><a href="#"><i class='bx bxl-twitter'></i></a></li>
+        </ul>
+    </footer>
+
+    <script src="js/fetchData.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
