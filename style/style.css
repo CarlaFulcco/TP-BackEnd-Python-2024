@@ -130,6 +130,14 @@ header{
     color: red;
 }
 
+.descripcion {
+    padding: 50px;
+    line-height: 1.5em;
+
+    flex: 6;
+
+    width: 100%;
+}
 
 /*HISTORIA*/
 #histo-id{
@@ -148,18 +156,58 @@ header{
 
 
 /*FORMULARIO DE CONTACTO*/
-form{
+
+form {
     background-color: #ec870c;
     margin: 30px;
     padding: 55px 250px;
-    border-radius: 20px;
-    text-align: center;
+    border-radius:20px;
+    text-align:justify;
+    margin-left:100px;
+    padding: 1.5em;
+    box-shadow: 0 0 20px rgba(255, 255, 255, .3);
+    
 }
 
-.input-group{
+.gestion {
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    
+
+}
+
+.txt-label {
+    width: 50%;
+    background:none;
+    padding: 10px;
+    border-radius: 4px; /*pone los bordes redondos*/
+    margin-bottom: 16px;
+    outline: 0;  /*le quita el borde cuando se escribe*/
+    border:none; /*le quita el borde al input*/
+    font-size: 12px;
+    color: white;
+    
+}
+
+.input-group {
+    display:grid;
+    grid-template-columns: 1fr 1fr;   
+    justify-content: center;
+    align-items: center;
+   
+}
+
+article {
     display: flex;
     flex-direction: column;
-    text-align: left;
+}
+
+.descripcion {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding-left: 5px;
 }
 
 label{
@@ -195,21 +243,34 @@ input::placeholder, textarea::placeholder{
     
 }
 
-.form-txt a:hover{
-    color: #00ff55;
+.acciones {
+    padding-left: 450px;
+    button {
+        margin: 0 5px;
+        color: red;
+        transition: all 1s;
+        align-items: center;
+        border: none;
+        background-color: transparent;
+        font-size: 1em;
+    }
+
+    button:hover {
+        cursor: pointer;
+    }
 }
 
-.form-btn{
-    font-size: 16px;
+.form-action-button{
+    font-size: 15px;
     color: white;
     border: 0;
     border-radius: 25px;
     background-color: #ff0000;
     cursor: pointer;
-    border: 3px solid rgb(131, 131, 131);
+    
 }
 
-.form-btn:hover{
+.form-action-button:hover{
     background-color: red;
     border: 3px solid red;
 }
@@ -234,6 +295,21 @@ input::placeholder, textarea::placeholder{
 .error2{
     border-color: red;
 }
+
+table {
+    color: white;
+    font-size: 20px;
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid white;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    text-align: center;
+}
+
+
 
   
 /*FOOTER*/
@@ -273,6 +349,15 @@ input::placeholder, textarea::placeholder{
 
 .tooltip:hover .tooltip-span{
     display: inline-block;
+}
+
+.sociales {
+    list-style-type: none;
+    display: flex;
+
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 
