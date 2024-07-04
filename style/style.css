@@ -309,7 +309,10 @@ table {
     text-align: center;
 }
 
-
+.archived {
+    background-color: #f0f0f0; /* Color de fondo para filas archivadas */
+    text-decoration: line-through; /* Línea tachada para indicar archivado */
+}
 
   
 /*FOOTER*/

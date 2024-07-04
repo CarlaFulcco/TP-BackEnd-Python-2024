@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,11 +12,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
-        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 </head>
-   
-<body  class="form-body">
+
+<body class="form-body">
     <!--HEADER-->
 
     <header class="header">
@@ -28,19 +29,18 @@
             <label for="check" class="checkbtn">
                 <i class="menu-icon"><img src="./img/btn-burger.png" alt=""></i>
             </label>
-            <ul class="nav-list"> 
+            <ul class="nav-list">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="hoteleria.html">Hoteleria</a></li>
                 <li><a href="Actividades.html">Actividades</a></li>
-                <li><a href="Historia.html">Historia</a></li> 
-                <li><a href="gestion_hoteles.html">Gestion de Hoteles</a></li>              
+                <li><a href="Historia.html">Historia</a></li>
+                <li><a href="gestion_hoteles.html">Gestion de Hoteles</a></li>
             </ul>
         </nav>
     </header>
-
     <!--MAIN-->
 
-    <main class="main-form">          
+    <main class="main-form">
         <form action="#" id="formContac" novalidate>
             <h2 class="form-h2">Gestion de Hoteles</h2>
             <div class="input-group">
@@ -52,55 +52,70 @@
 
                 <article>
                     <label class="txt-label">Estrellas</label>
-                <select name="Estrellas" id="Estrellas">
-                    <option value="">⭐</option>
-                    <option value="">⭐⭐</option>
-                    <option value="">⭐⭐⭐</option>
-                    <option value="">⭐⭐⭐⭐</option>
-                    <option value="">⭐⭐⭐⭐⭐</option>
-                </select>
-                </article>                
-                
+                    <select name="Estrellas" id="Estrellas">
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+                </article>
+
                 <article>
                     <label for="number" class="txt-label">Telefono</label>
                     <div class="error" id="error-number"></div>
                     <input type="number" name="number" id="number" placeholder="Telefono..">
                 </article>
-                
+
                 <article>
                     <label for="email" class="txt-label">Sitio Web</label>
                     <div class="error" id="error-email"></div>
                     <input type="url" name="url" id="email" placeholder="Sitio web...">
                 </article>
-            </div>   
+            </div>
             <div class="descripcion">
                 <label class="txt-label">Descripción</label>
                 <div class="error" id="error-mensaje"></div>
-                <textarea name="message" id="mensaje" cols="120" rows="20" placeholder="Ingrese descripción del hotel..."></textarea>
+                <textarea name="message" id="mensaje" cols="120" rows="20"
+                    placeholder="Ingrese descripción del hotel..."></textarea>
             </div>
             <div class="acciones">
                 <button><input class="form-action-button" type="submit" value="Enviar" id="btn-send"></button>
                 <button><input class="form-action-button" type="reset" value="Cancelar" id="btn-cancel"></button>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                      <th scope="col">Hotel</th>
-                      <th scope="col">Estrellas</th>
-                      <th scope="col">Teléfono</th>
-                      <th scope="col">Sitio web</th>
-                      <th scope="col">Descripcion</th>
-                      <th scope="col">Acción</th>
-                    </tr>
-                </thead>                              
-            </table>                                         
         </form>
+        <section class="hoteles">
+            <h2 id="AccionesHoteles">Mis Hoteles
+                <button type="button" id="VerTodos" class="headerActionButton active">Todos</button>
+                <button type="button" id="VerCompletados" class="headerActionButton">Completados</button>
+                <button type="button" id="VerArchivados" class="headerActionButton">Archivados</button>
+            </h2>
+            <div class="hoteles-container">
+                <!-- Template for hotels list -->
+                <table id="hotelTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Hotel</th>
+                            <th scope="col">Estrellas</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Sitio web</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hotelTableBody">
+                        <!-- Hotel rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </main>
 
-    <!--FOOTER-->
 
-    <footer id="footer"> 
-        <a href="#" class="tooltip">Términos y condiciones <span class="tooltip-span">Todos los derechos reservados.</span></a>
+    <!--FOOTER-->
+    <footer id="footer">
+        <a href="#" class="tooltip">Términos y condiciones <span class="tooltip-span">Todos los derechos
+                reservados.</span></a>
         <a href="#" class="tooltip">Preguntas frecuentes <span class="tooltip-span">✉ xxx@gmail.com.</span></a>
         <a href="#" class="tooltip">Ayuda <span class="tooltip-span">☎ (o11) 6422-0953</span></a>
         <ul class="sociales">
@@ -112,8 +127,112 @@
 
 
     <!--SCRIPT--><!---->
-    <script src="./js/validacion-formulario.js"></script>
+    <script src="./TODO_tp/js/fetchData.js"></script>
+    <script src="./TODO_tp/js/validacion-formulario.js"></script>
     <script src="./js/API.js"></script>
-    
+    <script>
+        document.getElementById('formContac').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const hotelName = document.getElementById('text').value;
+            const estrellas = document.getElementById('Estrellas').value;
+            const telefono = document.getElementById('number').value;
+            const sitioWeb = document.getElementById('email').value;
+            const descripcion = document.getElementById('mensaje').value;
+
+            const hotelTableBody = document.getElementById('hotelTableBody');
+            let row;
+
+            if (this.dataset.editing) {
+                // Edit existing row
+                row = document.querySelector(`tr[data-id="${this.dataset.editing}"]`);
+                delete this.dataset.editing;
+            } else {
+                // Create new row
+                row = document.createElement('tr');
+                hotelTableBody.appendChild(row);
+            }
+
+            row.dataset.id = new Date().getTime(); // Unique ID for each row
+            row.classList.remove('archived'); // Ensure the row is not archived upon editing
+            row.innerHTML = `
+                <td>${hotelName}</td>
+                <td>${'⭐'.repeat(estrellas)}</td>
+                <td>${telefono}</td>
+                <td><a href="${sitioWeb}" target="_blank">${sitioWeb}</a></td>
+                <td>${descripcion}</td>
+                <td>
+                    <button title="Completar" class="complete-btn"><i class='bx bxs-message-square-check'></i></button>
+                    <button title="Editar" class="edit-btn"><i class='bx bxs-message-square-edit'></i></button>
+                    <button title="Archivar" class="archive-btn"><i class='bx bxs-message-square-x'></i></button>
+                </td>
+            `;
+
+            this.reset();
+        });
+
+        document.getElementById('hotelTableBody').addEventListener('click', function (event) {
+            const row = event.target.closest('tr');
+            if (event.target.closest('.edit-btn')) {
+                const hotelName = row.cells[0].innerText;
+                const estrellas = row.cells[1].innerText.length;
+                const telefono = row.cells[2].innerText;
+                const sitioWeb = row.cells[3].querySelector('a').href;
+                const descripcion = row.cells[4].innerText;
+
+                document.getElementById('text').value = hotelName;
+                document.getElementById('Estrellas').value = estrellas;
+                document.getElementById('number').value = telefono;
+                document.getElementById('email').value = sitioWeb;
+                document.getElementById('mensaje').value = descripcion;
+
+                document.getElementById('formContac').dataset.editing = row.dataset.id;
+            } else if (event.target.closest('.archive-btn')) {
+                row.classList.toggle('archived');
+                applyFilter();
+            } else if (event.target.closest('.complete-btn')) {
+                row.classList.toggle('completed');
+                applyFilter();
+            }
+        });
+
+        // Filter buttons
+        document.getElementById('VerTodos').addEventListener('click', function () {
+            applyFilter('todos');
+        });
+
+        document.getElementById('VerCompletados').addEventListener('click', function () {
+            applyFilter('completados');
+        });
+
+        document.getElementById('VerArchivados').addEventListener('click', function () {
+            applyFilter('archivados');
+        });
+
+        function applyFilter(filter = 'todos') {
+            const rows = document.querySelectorAll('#hotelTableBody tr');
+            rows.forEach(row => {
+                row.style.display = 'table-row'; // Reset all rows to be visible
+                if (filter === 'completados' && !row.classList.contains('completed')) {
+                    row.style.display = 'none';
+                }
+                if (filter === 'archivados' && !row.classList.contains('archived')) {
+                    row.style.display = 'none';
+                }
+                if (filter === 'todos') {
+                    row.style.display = 'table-row';
+                }
+            });
+
+            document.querySelectorAll('.headerActionButton').forEach(button => button.classList.remove('active'));
+            document.getElementById(`Ver${capitalizeFirstLetter(filter)}`).classList.add('active');
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+    </script>
+
 </body>
+
 </html>
