@@ -1,2 +1,9 @@
 venv/
-hoteles_clientesvenv/
+# venv/hoteles_clientesvenv
+# venv/flask/hoteles_clientesvenv
+# hoteles_clientesvenv/
+# fijate si te lo pone en gris clarito
+# como para que no se suba al github
+# si sigue apareciendo lo borramos manualmente
+# desde el github porque me sigue apareciendo y me rompe el code
+#igual lo estoy laburando en un paralelo para poder usarlo

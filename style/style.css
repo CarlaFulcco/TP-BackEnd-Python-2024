@@ -8,7 +8,7 @@
 }
 
 body{
-    background-color: white;
+    background-color: #ec870c;
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -157,8 +157,23 @@ header{
 
 /*FORMULARIO DE CONTACTO*/
 
+section {
+    form {
+        background-color: #ec870c;
+        
+    }
+
+    table {
+        background-color: #ec870c;
+        padding: 55px;
+        border-radius:20px;
+        text-align:center;
+        justify-content: center;
+        
+    }
+}
+
 form {
-    background-color: #ec870c;
     margin: 30px;
     padding: 55px 250px;
     border-radius:20px;
@@ -307,12 +322,10 @@ table {
     border-left: none;
     border-right: none;
     text-align: center;
+    margin: 0;
 }
 
-.archived {
-    background-color: #f0f0f0; /* Color de fondo para filas archivadas */
-    text-decoration: line-through; /* Línea tachada para indicar archivado */
-}
+
 
   
 /*FOOTER*/
