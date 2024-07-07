@@ -1,7 +1,7 @@
 import os
-from app.database_hoteles import *
+from app.database_hoteles import get_db
 import psycopg2
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 class Hoteles:
@@ -39,33 +39,23 @@ class Hoteles:
         cursor.close()
         return hoteles
 
-    """@staticmethod
-    def get_all_pending():
-        return Task.__get_tasks_by_query(
-          
-                SELECT * 
-                FROM tareas 
-                WHERE activa = true AND completada = false
-                ORDER BY fecha_creacion DESC
-            )"""
-
     @staticmethod
     def get_all_completed():
         return Hoteles.__get_hoteles_by_query(
-            """ SELECT * FROM Hoteles WHERE activa = true AND
-                ORDER BY fecha_creacion DESC""")
+            """ SELECT * FROM Hoteles WHERE activo = true AND
+                ORDER BY id_hotel""")
 
     @staticmethod
     def get_all_archived():
         return Hoteles.__get_hoteles_by_query(
-            """ SELECT * FROM hoteles WHERE activa = false
-                ORDER BY fecha_creacion DESC""")
+            """ SELECT * FROM Hoteles WHERE activo = false 
+                ORDER BY id_hotel""")
     
     @staticmethod
     def get_by_id(id_hotel):
         db = get_db()
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM hoteles WHERE id = %s", (id_hotel,))
+        cursor.execute("SELECT * FROM Hoteles WHERE id = %s", (id_hotel,))
         row = cursor.fetchone()
         cursor.close()
 
@@ -88,7 +78,7 @@ class Hoteles:
         if self.id_hotel:
             cursor.execute(
                 """
-                    UPDATE hoteles
+                    UPDATE Hoteles
                     SET nombre = %s, estrellas = %s, descripcion = %s, mail = %s, telefono = %s, activa = %s
                     WHERE id = %s
                 """,
@@ -97,7 +87,7 @@ class Hoteles:
         else:
             cursor.execute(
                 """
-                    INSERT INTO hoteles
+                    INSERT INTO Hoteles
                     (nombre, estrellas, descripcion, mail, telefono, fecha_creacion, activa)
                     VALUES (%s, %s, %s, %s, %s, %s, %s)
                 """,
@@ -109,7 +99,7 @@ class Hoteles:
     def delete(self):
         db = get_db()
         cursor = db.cursor()
-        cursor.execute("UPDATE hoteles SET activa = false WHERE id = %s", (self.id_hotel,))
+        cursor.execute("UPDATE Hoteles SET activa = false WHERE id = %s", (self.id_hotel,))
         db.commit()
         cursor.close()
 

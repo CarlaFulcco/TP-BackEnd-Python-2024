@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+print(os.getenv('DB_USERNAME'))
+
 DATABASE_CONFIG = {
     'user': os.getenv('DB_USERNAME'),
     'password': os.getenv('DB_PASSWORD'),
@@ -17,9 +19,9 @@ DATABASE_CONFIG = {
 
 def test_connection():
     conn = psycopg2.connect(
-        host = "localhost",
-        user = os.getenv ('DB_USERNAME'),
-        password = os.getenv('DB_PASSWORD')
+        host="localhost",
+        user=os.getenv('DB_USERNAME'),
+        password=os.getenv('DB_PASSWORD')
     )
     cur = conn.cursor()
     conn.commit()
@@ -54,7 +56,46 @@ def create_table_Hoteles():
     cur.close()
     conn.close()
     
+def insert_hoteles(nombre, estrellas, descripcion, mail, telefono, activo):
+    query = """
+        INSERT INTO Hoteles (nombre, estrellas, descripcion, mail, telefono, activo)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """
+    conn = psycopg2.connect(**DATABASE_CONFIG)
+    cur = conn.cursor()
+    cur.execute(query, (nombre, estrellas, descripcion, mail, telefono, activo))
+    conn.commit()
+    cur.close()
+    conn.close()
 
+def get_completed_hoteles():
+    query = """
+        SELECT * FROM Hoteles
+        WHERE activo = true
+        ORDER BY id_hotel
+    """
+    conn = psycopg2.connect(**DATABASE_CONFIG)
+    cur = conn.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+    cur.close()
+    conn.close()
+    return results 
+
+def get_archived_hoteles():
+    query = """
+        SELECT * FROM Hoteles
+        WHERE activo = false
+        ORDER BY id_hotel
+    """
+    conn = psycopg2.connect(**DATABASE_CONFIG)
+    cur = conn.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+    cur.close()
+    conn.close()
+    return results 
+  
 # Función para obtener la conexión a la base de datos
 def get_db():
     # Si 'db' no está en el contexto global de Flask 'g'
