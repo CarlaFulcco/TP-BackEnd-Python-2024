@@ -1,6 +1,8 @@
 from flask import jsonify, request
-from app.database_hoteles import insert_hoteles, get_completed_hoteles as fetch_completed_hoteles, get_archived_hoteles as fetch_archived_hoteles, get_db
+from app.database_hoteles import *
 import psycopg2
+from app.models_hoteles import *
+from datetime import datetime
 
 def index():
     return jsonify(
@@ -31,7 +33,7 @@ def create_hotel():
         descripcion=data['descripcion'],
         mail=data['mail'],
         telefono=data['telefono'],
-        fecha_creacion=date.today().strftime('%Y-%m-%d'),
+        fecha_creacion=datetime.today().strftime('%Y-%m-%d'),
         activa=True
     )
     new_hotel.save()

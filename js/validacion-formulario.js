@@ -1,3 +1,28 @@
+const BASE_URL = 'http://localhost:5000';
+
+document.getElementById('formContac').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const hotelName = document.getElementById('text').value;
+    const estrellas = document.getElementById('Estrellas').value;
+    const telefono = document.getElementById('number').value;
+    const sitioWeb = document.getElementById('email').value;
+    const descripcion = document.getElementById('mensaje').value;
+
+    const data = {
+        'nombre': hotelName,
+        'estrellas': estrellas,
+        'descripcion': descripcion,
+        'ail': sitioWeb,
+        'telefono': telefono
+    };
+
+    const url = BASE_URL + '/api/hoteles/create/';
+    fetchData(url, "POST", () => {
+        location.reload();
+    }, data);
+});
+
 document.getElementById('formContac').addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -11,17 +36,17 @@ document.getElementById('formContac').addEventListener('submit', function (event
     let row;
 
     if (this.dataset.editing) {
-        // Edit existing row
+        
         row = document.querySelector(`tr[data-id="${this.dataset.editing}"]`);
         delete this.dataset.editing;
     } else {
-        // Create new row
+       
         row = document.createElement('tr');
         hotelTableBody.appendChild(row);
     }
 
-    row.dataset.id = new Date().getTime(); // Unique ID for each row
-    row.classList.remove('archived'); // Ensure the row is not archived upon editing
+    row.dataset.id = new Date().getTime(); 
+    row.classList.remove('archived'); 
     row.innerHTML = `
         <td>${hotelName}</td>
         <td>${'⭐'.repeat(estrellas)}</td>
@@ -63,7 +88,7 @@ document.getElementById('hotelTableBody').addEventListener('click', function (ev
     }
 });
 
-// Filter buttons
+
 document.getElementById('VerTodos').addEventListener('click', function () {
     applyFilter('todos');
 });
@@ -79,7 +104,7 @@ document.getElementById('VerArchivados').addEventListener('click', function () {
 function applyFilter(filter = 'todos') {
     const rows = document.querySelectorAll('#hotelTableBody tr');
     rows.forEach(row => {
-        row.style.display = 'table-row'; // Reset all rows to be visible
+        row.style.display = 'table-row';
         if (filter === 'completados' && !row.classList.contains('completed')) {
             row.style.display = 'none';
         }

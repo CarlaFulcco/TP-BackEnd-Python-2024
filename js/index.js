@@ -24,6 +24,22 @@ hotelTodosTemplateReferenceTemplateReference.remove();
 hotelCompletedTemplateReference.remove();
 hotelArchivedTemplateReference.remove();
 
+function createHotel(event) {
+    event.preventDefault();
+    let data = {
+        'nombre': document.querySelector('#text').value,
+        'estrellas': document.querySelector('#Estrellas').value,
+        'descripcion': document.querySelector('#mensaje').value,
+        'mail': document.querySelector('#email').value,
+        'telefono': document.querySelector('#number').value
+    };
+
+    let url = BASE_URL + '/api/hoteles/create/';
+    fetchData(url, "POST", () => {
+        location.reload();
+    }, data);
+}
+
 function archiveHotel(event) {
     let id = event.currentTarget.id_hotel;
 

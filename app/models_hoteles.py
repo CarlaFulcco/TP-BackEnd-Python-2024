@@ -4,6 +4,7 @@ import psycopg2
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
+
 class Hoteles:
     def __init__(self, id_hotel=None, nombre=None, estrellas=None, descripcion=None, mail=None, telefono=None, fecha_creacion=None, activa=None):
         self.id_hotel = id_hotel
