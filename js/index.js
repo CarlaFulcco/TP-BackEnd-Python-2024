@@ -58,33 +58,31 @@ function loadHotel(hotel_status) {
 
         'Completados': {
             'URL': BASE_URL + '/api/hoteles/completed/',
-            'TaskTemplatesName': 'Completados'
+            'HotelTemplatesName': 'Completados'
         },
 
         'Archivados': {
             'URL': BASE_URL + '/api/hoteles/archived/',
-            'TaskTemplatesName': 'Archivados'
+            'HotelTemplatesName': 'Archivados'
         },
     }
 
-    if (!(task_status in fetch_data)){
-        throw new Error(`El Parametro: ${task_status} no está definido!`);
+    if (!(hotel_status in fetch_data)){
+        throw new Error(`El Parametro: ${hotel_status} no está definido!`);
     }
 
     fetchData(fetch_data[hotel_status].URL, "GET", (data) => {
-        // Procesamiento de la info que llega de la API
+        
         let hoteles = [];
         for (const hotel of data) {
             let newHotel = hotelTemplates[fetch_data[hotel_status].HotelTemplatesName].cloneNode(true);
             newHotel.querySelector("h3 .titulo").innerHTML = hotel.nombre;
             newHotel.querySelector(".descripcion").innerHTML = hotel.descripcion;
-            newHotel.querySelector(".fecha").innerHTML = hotel.fecha_creacion;
             newHotel.querySelector(".id_hotel").value = hotel.id;
 
             let archivarAction = newHotel.querySelector("#Archivar");
             let editarAction =newHotel.querySelector("#Editar");
             let completarAction =newHotel.querySelector("#Completar");
-            let pasarAPendienteAction =newHotel.querySelector("#Pendiente");
 
             if (archivarAction) {
                 archivarAction.addEventListener("click", archiveHotel);
@@ -131,4 +129,4 @@ function setFilters() {
 }
 
 setFilters();
-loadTasks('Pendientes');
+loadHoteles('Todos');
