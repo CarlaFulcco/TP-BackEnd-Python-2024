@@ -1,6 +1,6 @@
 import os
 import psycopg2
-from flask import g
+from flask import g, Flask
 from dotenv import load_dotenv
 
 
@@ -15,86 +15,102 @@ DATABASE_CONFIG = {
     'database': os.getenv('DB_NAME'),
     'port': os.getenv('DB_PORT', 5432)
 }
-
-
-def test_connection():
-    conn = psycopg2.connect(
-        host="localhost",
-        user=os.getenv('DB_USERNAME'),
-        password=os.getenv('DB_PASSWORD')
-    )
-    cur = conn.cursor()
-    conn.commit()
-    cur.close()
-    conn.close()
-
-    print("TEST CONECTION - OKAS")
-    
+ 
 
 def create_table_Hoteles():
-    conn = psycopg2.connect(
-        host = "localhost",
-        user = os.getenv ('DB_USERNAME'),
-        password = os.getenv('DB_PASSWORD')
-    )
-    cur = conn.cursor()
-    cur.execute(
-        """
-        CREATE TABLE IF NOT EXISTS Hoteles (
-            id_hotel SERIAL PRIMARY KEY,
-            nombre varchar (50) NOT NULL,
-            estrellas varchar (10) NOT NULL,
-            descripcion varchar (500) NOT NULL,
-            mail varchar (30) NOT NULL,
-            telefono varchar (20) NOT NULL,
-            activo BOOLEAN NOT NULL
-        );
-        """
-    )
-    conn.commit()
-    
-    cur.close()
-    conn.close()
+    try:
+        conn = psycopg2.connect(**DATABASE_CONFIG)
+        cur = conn.cursor()
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS Hoteles (
+                id_hotel SERIAL PRIMARY KEY,
+                nombre VARCHAR(50) NOT NULL,
+                estrellas VARCHAR(10) NOT NULL,
+                descripcion VARCHAR(500) NOT NULL,
+                mail VARCHAR(30) NOT NULL,
+                telefono VARCHAR(20) NOT NULL,
+                activo BOOLEAN NOT NULL
+            );
+        """)
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("Table created successfully")
+    except Exception as e:
+        print(f"Error: {e}")
+
     
 def insert_hoteles(nombre, estrellas, descripcion, mail, telefono, activo):
-    query = """
-        INSERT INTO Hoteles (nombre, estrellas, descripcion, mail, telefono, activo)
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """
-    conn = psycopg2.connect(**DATABASE_CONFIG)
-    cur = conn.cursor()
-    cur.execute(query, (nombre, estrellas, descripcion, mail, telefono, activo))
-    conn.commit()
-    cur.close()
-    conn.close()
+    try:
+        query = """
+            INSERT INTO Hoteles (nombre, estrellas, descripcion, mail, telefono, activo)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        conn = psycopg2.connect(**DATABASE_CONFIG)
+        cur = conn.cursor()
+        cur.execute(query, (nombre, estrellas, descripcion, mail, telefono, activo))
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("Hotel inserted successfully")
+    except Exception as e:
+        print(f"Error: {e}")
+        
 
 def get_completed_hoteles():
-    query = """
-        SELECT * FROM Hoteles
-        WHERE activo = true
-        ORDER BY id_hotel
-    """
-    conn = psycopg2.connect(**DATABASE_CONFIG)
-    cur = conn.cursor()
-    cur.execute(query)
-    results = cur.fetchall()
-    cur.close()
-    conn.close()
-    return results 
+    try:
+        query = """
+            SELECT * FROM Hoteles
+            WHERE activo = true
+            ORDER BY id_hotel
+        """
+        conn = psycopg2.connect(**DATABASE_CONFIG)
+        cur = conn.cursor()
+        cur.execute(query)
+        results = cur.fetchall()
+        cur.close()
+        conn.close()
+        return results
+    except Exception as e:
+        print(f"Error: {e}")
+        return []
+
 
 def get_archived_hoteles():
-    query = """
-        SELECT * FROM Hoteles
-        WHERE activo = false
-        ORDER BY id_hotel
-    """
-    conn = psycopg2.connect(**DATABASE_CONFIG)
-    cur = conn.cursor()
-    cur.execute(query)
-    results = cur.fetchall()
-    cur.close()
-    conn.close()
-    return results 
+    try:
+        query = """
+            SELECT * FROM Hoteles
+            WHERE activo = false
+            ORDER BY id_hotel
+        """
+        conn = psycopg2.connect(**DATABASE_CONFIG)
+        cur = conn.cursor()
+        cur.execute(query)
+        results = cur.fetchall()
+        cur.close()
+        conn.close()
+        return results
+    except Exception as e:
+        print(f"Error: {e}")
+        return []
+
+    
+def get_all_hoteles():
+    try:
+        query = """
+            SELECT * FROM Hoteles
+            ORDER BY id_hotel
+        """
+        conn = psycopg2.connect(**DATABASE_CONFIG)
+        cur = conn.cursor()
+        cur.execute(query)
+        results = cur.fetchall()
+        cur.close()
+        conn.close()
+        return results
+    except Exception as e:
+        print(f"Error: {e}")
+        return []
   
 # Función para obtener la conexión a la base de datos
 def get_db():
@@ -117,3 +133,10 @@ def close_db(e=None):
 def init_app(app):
     # Registrar 'close_db' para que se ejecute al final del contexto de la aplicación
     app.teardown_appcontext(close_db)
+    
+app = Flask(__name__)
+init_app(app)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+    

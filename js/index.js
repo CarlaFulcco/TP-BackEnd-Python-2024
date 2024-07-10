@@ -3,26 +3,10 @@ let BASE_URL = 'http://localhost:5000';
 let filterButtons = {
     "Todos": document.querySelector("#VerTodos"),
     "Completados": document.querySelector("#VerCompletados"),
-    "Archivados": document.querySelector("#VerArchivados") 
+    "Archivados": document.querySelector("#VerArchivados")
 }
 
-let hotelContainer = document.querySelector(".hoteles-container");
-
-let hotelTodosTemplateReference = document.querySelector(".hotel.todos.template");
-
-let hotelCompletedTemplateReference = document.querySelector(".hotel.completado.template");
-
-let hotelArchivedTemplateReference = document.querySelector(".hotel.archivado.template");
-
-let hotelTemplates = {
-    "Todos": hotelTodosTemplateReference.cloneNode(true),
-    "Completado": hotelCompletedTemplateReference.cloneNode(true),
-    "Archivado": hotelArchivedTemplateReference.cloneNode(true)
-};
-
-hotelTodosTemplateReferenceTemplateReference.remove();
-hotelCompletedTemplateReference.remove();
-hotelArchivedTemplateReference.remove();
+let hotelTableBody = document.querySelector("#hotelTableBody");
 
 function createHotel(event) {
     event.preventDefault();
@@ -36,113 +20,126 @@ function createHotel(event) {
 
     let url = BASE_URL + '/api/hoteles/create/';
     fetchData(url, "POST", () => {
-        location.reload();
+        loadHotels();
     }, data);
 }
 
-function archiveHotel(event) {
-    let id = event.currentTarget.id_hotel;
-
-    let url = BASE_URL + '/api/hoteles/archived/' + id;
+function archiveHotel(id) {
+    let url = BASE_URL + '/api/hoteles/archive/' + id;
 
     fetchData(url, "DELETE", () => {
-        location.reload();
+        loadHotels();
     });
 }
 
-function editHotel(event) {
-    let id = event.currentTarget.id_hotel;
-    window.location.replace("pages/add_update_hoteles.html?id_hotel=" + id);
-}
+function editHotel(id) {
+    let formData = new FormData(event.currentTarget.form);
+    let data = Object.fromEntries(formData.entries());
 
-function CompletedHotel(event){
-    let id = event.currentTarget.id_hotel;
-
-    let url = BASE_URL + '/api/hoteles/completed/' + id;
+    let url = BASE_URL + '/api/hoteles/update/' + id;
 
     fetchData(url, "PUT", () => {
-        location.reload();
+        loadHotels();
+    }, data);
+}
+
+function loadHotels(filter = 'todos') {
+    let url = BASE_URL + '/api/hoteles/' + filter;
+    fetchData(url, "GET", (data) => {
+        hotelTableBody.innerHTML = '';
+        data.forEach(hotel => {
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${hotel.nombre}</td>
+                <td>${hotel.estrellas}</td>
+                <td>${hotel.telefono}</td>
+                <td>${hotel.mail}</td>
+                <td>${hotel.descripcion}</td>
+                <td>
+                    <button id="edit-${hotel.id_hotel}" class="edit-btn">Editar</button>
+                    <button id="archive-${hotel.id_hotel}" class="archive-btn">Archivar</button>
+                </td>
+            `;
+            hotelTableBody.appendChild(row);
+
+            document.querySelector(`#edit-${hotel.id_hotel}`).addEventListener("click", () => editHotel(hotel.id_hotel));
+            document.querySelector(`#archive-${hotel.id_hotel}`).addEventListener("click", () => archiveHotel(hotel.id_hotel));
+        });
     });
 }
 
-function loadHotel(hotel_status) {
-    let fetch_data = {
-        'Todos': {
-            'URL': BASE_URL + '/api/hoteles/todos/',
-            'HotelTemplatesName': 'Todos'
-        },
+document.querySelector("#formContac").addEventListener("submit", createHotel);
 
-        'Completados': {
-            'URL': BASE_URL + '/api/hoteles/completed/',
-            'HotelTemplatesName': 'Completados'
-        },
+document.querySelector("#VerTodos").addEventListener("click", () => loadHotels('todos'));
+document.querySelector("#VerCompletados").addEventListener("click", () => loadHotels('completed'));
+document.querySelector("#VerArchivados").addEventListener("click", () => loadHotels('archived'));
 
-        'Archivados': {
-            'URL': BASE_URL + '/api/hoteles/archived/',
-            'HotelTemplatesName': 'Archivados'
-        },
+loadHotels();
+
+function fetchData(url, method, onSuccess, data) {
+    let options = {
+        method: method,
+        headers: { 'Content-Type': 'application/json' }
+    };
+    if (data) {
+        options.body = JSON.stringify(data);
     }
 
-    if (!(hotel_status in fetch_data)){
-        throw new Error(`El Parametro: ${hotel_status} no está definido!`);
-    }
-
-    fetchData(fetch_data[hotel_status].URL, "GET", (data) => {
-        
-        let hoteles = [];
-        for (const hotel of data) {
-            let newHotel = hotelTemplates[fetch_data[hotel_status].HotelTemplatesName].cloneNode(true);
-            newHotel.querySelector("h3 .titulo").innerHTML = hotel.nombre;
-            newHotel.querySelector(".descripcion").innerHTML = hotel.descripcion;
-            newHotel.querySelector(".id_hotel").value = hotel.id;
-
-            let archivarAction = newHotel.querySelector("#Archivar");
-            let editarAction =newHotel.querySelector("#Editar");
-            let completarAction =newHotel.querySelector("#Completar");
-
-            if (archivarAction) {
-                archivarAction.addEventListener("click", archiveHotel);
-                archivarAction.id_hotel = hotel.id;
+    fetch(url, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.json();
+        })
+        .then(data => {
+            if (onSuccess) onSuccess(data);
+        })
+        .catch(error => {
+            console.error('There was a problem with your fetch operation:', error);
+        });
+}
 
-            if (editarAction) {
-                editarAction.addEventListener("click", editHotel);
-                editarAction.id_hotel = hotel.id;
-            }
+document.querySelector("#formContac").addEventListener("submit", createHotel);
 
-            if (completarAction) {
-                completarAction.addEventListener("click", CompletedHotel);
-                completarAction.id_hotel = hotel.id;
-            }
-
-            if (pasarATodosAction) {
-                pasarATodosAction.addEventListener("click", TodosHotel);
-                pasarATodosAction.id_hotel = hotel.id;
-            }
-
-            hoteles.push(newHotel);
+for (let [key, button] of Object.entries(filterButtons)) {
+    button.addEventListener("click", () => {
+        let url;
+        switch (key) {
+            case "Completados":
+                url = BASE_URL + '/api/hoteles/completed/';
+                break;
+            case "Archivados":
+                url = BASE_URL + '/api/hoteles/archived/';
+                break;
+            case "Todos":
+                url = BASE_URL + '/api/hoteles/todos/';
+                break;
+            default:
+                return;
         }
 
-        hotelContainer.replaceChildren(...hoteles);
+        fetchData(url, "GET", (data) => {
+            hotelTableBody.innerHTML = ''; // Clear the table body first
+            data.forEach(hotel => {
+                let row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${hotel.nombre}</td>
+                    <td>${hotel.estrellas}</td>
+                    <td>${hotel.telefono}</td>
+                    <td>${hotel.mail}</td>
+                    <td>${hotel.descripcion}</td>
+                    <td>
+                        <button id="edit-${hotel.id_hotel}" class="edit-btn">Editar</button>
+                        <button id="archive-${hotel.id_hotel}" class="archive-btn">Archivar</button>
+                    </td>
+                `;
+                hotelTableBody.appendChild(row);
+
+                document.querySelector(`#edit-${hotel.id_hotel}`).addEventListener("click", () => editHotel(hotel.id_hotel));
+                document.querySelector(`#archive-${hotel.id_hotel}`).addEventListener("click", () => archiveHotel(hotel.id_hotel));
+            });
+        });
     });
 }
 
-function setActiveFilter(event){
-    for (filter in filterButtons) {
-        filterButtons[filter].classList.remove("active");
-    }
-
-    event.currentTarget.classList.add("active");
-
-    loadHotel(event.currentTarget.filterName);
-}
-
-function setFilters() {
-    for (button in filterButtons){
-        filterButtons[button].addEventListener("click", setActiveFilter);
-        filterButtons[button].filterName = button;
-    }
-}
-
-setFilters();
-loadHoteles('Todos');
